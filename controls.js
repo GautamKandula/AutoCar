@@ -8,6 +8,7 @@ class Controls {
         this.#addKeyboardListeners();
     }
 
+    // Movement Listener 
     #addKeyboardListeners(){
         document.onkeydown = (event)=>{
             switch(event.key) {
@@ -24,8 +25,9 @@ class Controls {
                     this.reverse = true;
                     break;
             }
-            console.table(this);
         }
+
+        // Stopping Movement Listener
         document.onkeyup = (event)=>{
             switch(event.key) {
                 case "ArrowLeft":
@@ -41,7 +43,6 @@ class Controls {
                     this.reverse = false;
                     break;
             }
-            console.table(this)
         }
     }
 }

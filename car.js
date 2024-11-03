@@ -11,10 +11,15 @@ class Car {
         this.friction = 0.05;
         this.angle = 0;
 
-        this.controls = new Controls();
+        this.controls = new Controls(); // See controls.js for methods
     }
 
     update(){
+        this.#move();
+    }
+
+    // All Movement Logic
+    #move() {
         if (this.controls.forward){
             this.velocity += this.accel;
 
@@ -54,11 +59,12 @@ class Car {
             }
         }
         
-
+        // Assume unit circle flipped 90 degrees counter-clockwise
         this.x -= Math.sin(this.angle)*this.velocity;
         this.y -= Math.cos(this.angle)*this.velocity;
     }
-
+    
+    // Creates "Car" Block
     draw(ctx) {
         ctx.save();
         ctx.translate(this.x, this.y);
@@ -72,7 +78,8 @@ class Car {
             this.height
         );
         ctx.fill();
-
+        
+        // Sets angle and position correctly
         ctx.restore();
     }
 }
