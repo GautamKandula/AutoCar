@@ -11,11 +11,13 @@ class Car {
         this.friction = 0.05;
         this.angle = 0;
 
+        this.sensor = new Sensor(this);
         this.controls = new Controls(); // See controls.js for methods
     }
 
-    update(){
+    update(roadBorders){
         this.#move();
+        this.sensor.update(roadBorders);
     }
 
     // All Movement Logic
@@ -81,5 +83,7 @@ class Car {
         
         // Sets angle and position correctly
         ctx.restore();
+
+        this.sensor.draw(ctx);
     }
 }
