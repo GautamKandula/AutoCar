@@ -1,5 +1,5 @@
 class Car {
-    constructor(x, y, width, height){
+    constructor(x, y, width, height, controlType, terminalVelocity=3){
         this.x = x;
         this.y = y;
         this.width = width;
@@ -7,29 +7,40 @@ class Car {
         
         this.velocity = 0;
         this.accel = 0.2;
-        this.terminalVelocity = 3;
+        this.terminalVelocity = terminalVelocity;
         this.friction = 0.05;
         this.angle = 0;
         this.damaged = false;
 
-        this.sensor = new Sensor(this);
-        this.controls = new Controls(); // See controls.js for methods
+        if (controlType != "TRAFFIC") { //only user car gets sensors
+            this.sensor = new Sensor(this);
+        }
+        
+        this.controls = new Controls(controlType); // See controls.js for methods
     }
 
-    update(roadBorders){
+    update(roadBorders, traffic){
         if (!this.damaged) {
         this.#move();
         this.polygon = this.#createPolygon();
-        this.damaged = this.#assessDamage(roadBorders);
+        this.damaged = this.#assessDamage(roadBorders, traffic);
         }
-        this.sensor.update(roadBorders);
+        if (this.sensor) { //dont update uneccesary sensors
+            this.sensor.update(roadBorders, traffic);
+        }
+       
         
     }
 
 
-    #assessDamage(roadBorders){
+    #assessDamage(roadBorders, traffic){
         for (let i = 0; i < roadBorders.length; i++) {
             if (polysIntersect(this.polygon, roadBorders[i])) {
+                return true;
+            }
+        }
+        for (let i = 0; i < traffic.length; i++) {
+            if (polysIntersect(this.polygon, traffic[i].polygon)) {
                 return true;
             }
         }
@@ -129,6 +140,8 @@ class Car {
         }
         ctx.fill();
 
-        this.sensor.draw(ctx);
+        if (this.sensor) { // Dont want traffic sensors
+            this.sensor.draw(ctx);
+        }
     }
 }
