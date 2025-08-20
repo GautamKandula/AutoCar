@@ -5,6 +5,10 @@ body {
     text-align: center;
 }
 
-#project {
+#carProject {
     background: rgb(118, 118, 118);
+}
+
+#networkProject {
+    background: black
 }
