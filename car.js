@@ -17,7 +17,7 @@ class Car {
         if (controlType != "TRAFFIC") { //only user car gets sensors
             this.sensor = new Sensor(this);
             this.brain = new NeuralNetwork(
-                [this.sensor.rayCount, 6, 4]
+                [this.sensor.rayCount, 4,4, 4]
             );
         }
         
@@ -142,11 +142,11 @@ class Car {
     }
     
     // Creates "Car" Block
-    draw(ctx) {
+    draw(ctx, color, drawSensor=false) {
         if(this.damaged){
             ctx.fillStyle = "red";
         } else {
-            ctx.fillStyle="green"
+            ctx.fillStyle=color
         }
         ctx.beginPath();
         ctx.moveTo(this.polygon[0].x, this.polygon[0].y)
@@ -156,7 +156,7 @@ class Car {
         }
         ctx.fill();
 
-        if (this.sensor) { // Dont want traffic sensors
+        if (this.sensor && drawSensor) { // Dont want traffic sensors
             this.sensor.draw(ctx);
         }
     }
