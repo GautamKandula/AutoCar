@@ -1,0 +1,1 @@
+Autocar is the name of a self driving AI car made with vanilla Javascript and no additional libraries, This project is created with insipiration from Radu Mariescu-Istodor's Self driving car challenge
